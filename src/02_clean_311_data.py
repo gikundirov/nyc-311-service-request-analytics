@@ -1,6 +1,6 @@
 import pandas as pd
 
-raw_file = "data/raw/nyc_311_2024_closed_sample.csv"
+raw_file = "data/raw/nyc_311_2024_monthly_sample.csv"
 cleaned_file = "data/processed/nyc_311_2024_cleaned.csv"
 
 # Load raw CSV
