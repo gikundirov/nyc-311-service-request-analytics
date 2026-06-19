@@ -220,3 +220,5 @@ __marimo__/
 # Ignore raw and processed data files
 data/raw/*.csv
 data/processed/*.csv
+*.db
+data/raw/monthly_parts/

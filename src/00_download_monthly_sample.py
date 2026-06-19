@@ -1,17 +1,17 @@
-# NOTE:
-# This script is paused for now because Python had an SSL certificate issue on Mac.
-# We are using curl in the terminal to download monthly samples instead.
-
 import pandas as pd
 from urllib.parse import urlencode
 
-# API endpoint for NYC 311 data
+# NOTE:
+# This script shows the planned Python download method for NYC 311 data.
+# On my local Mac setup, I used curl in the terminal instead because of an SSL certificate issue.
+
+# NYC Open Data API endpoint for 311 service requests
 base_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.csv"
 
-# Output file
+# Output file for the combined monthly sample
 output_file = "data/raw/nyc_311_2024_monthly_sample.csv"
 
-# Columns we need for the project
+# Columns selected for this project
 columns = (
     "unique_key,"
     "created_date,"
@@ -27,7 +27,7 @@ columns = (
     "longitude"
 )
 
-# Month start and end dates
+# Date ranges used to collect a small sample from each month of 2024
 months = [
     ("2024-01-01T00:00:00", "2024-02-01T00:00:00"),
     ("2024-02-01T00:00:00", "2024-03-01T00:00:00"),
@@ -45,7 +45,7 @@ months = [
 
 all_data = []
 
-# Download a sample from each month
+# Download up to 5,000 closed complaints from each month
 for start_date, end_date in months:
     where_filter = (
         f"created_date >= '{start_date}' "
@@ -67,13 +67,14 @@ for start_date, end_date in months:
 
     print(f"{start_date[:7]} downloaded: {len(month_df)} rows")
 
-# Combine all monthly samples
+
+# Combine all monthly samples into one DataFrame
 df = pd.concat(all_data, ignore_index=True)
 
-# Save combined sample
+# Save the final combined sample
 df.to_csv(output_file, index=False)
 
-print("\nMonthly sample created successfully!")
+print("\nMonthly sample created successfully.")
 print("Rows:", df.shape[0])
 print("Columns:", df.shape[1])
 print("Saved to:", output_file)
